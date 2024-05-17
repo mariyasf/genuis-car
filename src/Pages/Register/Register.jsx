@@ -1,29 +1,27 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import l1 from '/assets/images/login/login.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 
-const Login = () => {
-    const { signIn } = useContext(AuthContext);
-    const location = useLocation();
-    const navigate = useNavigate();
 
-    const handleLogin = e => {
+const Register = () => {
+    const { createNewUser } = useContext(AuthContext);
+
+
+    const handleRegister = e => {
         e.preventDefault();
 
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(email, password)
+        console.log(email, password);
 
-        signIn(email, password)
+        createNewUser(email, password)
             .then(result => {
                 console.log(result.user);
-                navigate(location?.state ? location.state : '/')
             })
-            .catch(error => {
-                console.log(error);
-            })
+            .catch(error => console.log(error))
+
 
     }
 
@@ -34,8 +32,14 @@ const Login = () => {
                     <img src={l1} alt="" />
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form className="card-body" onSubmit={handleLogin}>
-                        <h2 className='text-3xl font-bold text-center'>Login Now</h2>
+                    <form className="card-body" onSubmit={handleRegister}>
+                        <h2 className='text-3xl font-bold text-center'>Register Now</h2>
+                        <div className="form-control">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input type="text" name='name' placeholder="Name" className="input input-bordered" required />
+                        </div>
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -52,12 +56,12 @@ const Login = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn bg-[#FF3811] uppercase text-white">Login</button>
+                            <button className="btn bg-[#FF3811] uppercase text-white">Register</button>
                         </div>
                     </form>
 
                     <div className='text-center '>
-                        <p>New to Car Doctors? <Link className='text-[#FF3811] font-bold' to={'/register'}>Register</Link> </p>
+                        <p>Already have an account? <Link className='text-[#FF3811] font-bold' to={'/login'}>Login</Link> </p>
                     </div>
                 </div>
             </div>
@@ -65,4 +69,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
